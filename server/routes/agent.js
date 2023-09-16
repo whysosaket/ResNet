@@ -26,12 +26,14 @@ const generateAgentID = () => {
 
 //Route-1 Fetching all agents
 router.get("/fetchagent", fetchagency, async (req, res) => {
+    let success=false
   try {
     const agent = await Agent.find({ agency: req.agency.id });
+    success=true;
     res.json(agent);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Some internal error occurred" });
+    res.status(500).json({ success, error: "Some internal error occurred" });
   }
 });
 
@@ -47,13 +49,14 @@ router
     ],
     fetchagency,
     async (req, res) => {
+        let success = false;
       // Validating if email/password/name is acceptable
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({success, errors: errors.array() });
       }
 
-      let success = false;
+      
 
       // Validating if the account exist or not
       const agency = await Agency.findById(req.agency.id);
@@ -70,7 +73,7 @@ router
         if (agent) {
           return res
             .status(400)
-            .json({ error: "Agent with the same email exists" });
+            .json({ success, error: "Agent with the same email exists" });
         }
         const { name, email, password, mobile } = req.body;
 
@@ -101,11 +104,11 @@ router
           },
         };
         const authToken = jwt.sign(data, JWT_SECRET);
-
-            res.json({agent: agent});
+        success=true;
+            res.json({success, agent: agent});
       } catch (error) {
         console.log(error);
-        res.json({ error: "Something Went Wrong!" });
+        res.json({ success, error: "Something Went Wrong!" });
       }
     }
   );
@@ -118,21 +121,23 @@ router.post(
     body("password").isLength({ min: 5 }),
   ],
   async (req, res) => {
+    let success=false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
     const { email, password } = req.body;
+    
     try {
       //Finding the Agent with the provided email
       let agent = await Agent.findOne({ email: email });
       if (!agent) {
-        return res.status(400).json({ error: "Invalid Credentials" });
+        return res.status(400).json({success, error: "Invalid Credentials" });
       }
       //Checking the password
       const passwordCompare = await bcrypt.compare(password, agent.password);
       if (!passwordCompare) {
-        return res.status(400).json({ error: "Invalid Credentials" });
+        return res.status(400).json({success, error: "Invalid Credentials" });
       }
       const data = {
         agent: {
@@ -140,11 +145,11 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-
-      res.json({token: authToken});
+      success=true;
+      res.json({success,token: authToken});
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({ error: "Some internal error occurred" });
+      res.status(500).json({success, error: "Some internal error occurred" });
     }
   }
 );

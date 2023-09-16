@@ -22,16 +22,17 @@ router.post("/register", [
     body('password').isLength({ min: 5 }),
     body('mobile', 'Enter a valid Number').isLength({min:10})
 ], async (req, res) => {
+    let success=false;
     // If there are any errors, return Bad Request with errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({success, errors: errors.array() });
     }
     try {
         //Checking if the Agency with same email exists
         let agency = await Agency.findOne({ email: req.body.email });
         if (agency) {
-            return res.status(400).json({ error: "Agency with the same email exists" })
+            return res.status(400).json({success, error: "Agency with the same email exists" })
         }
 
         // agency ID = AG + 6 digit random number
@@ -62,11 +63,11 @@ router.post("/register", [
             }
         }
         const authToken = jwt.sign(data, JWT_SECRET);
-        
-        res.json({agency: agency})
+        success=true;
+        res.json({sucess,agency: agency})
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ error: "Some internal error occurred" })
+        res.status(500).json({success, error: "Some internal error occurred" })
     }
 
 })
@@ -76,9 +77,10 @@ router.post("/login", [
     body('email', 'Enter a valid email').isEmail(),
     body('password').isLength({min:5})
 ], async (req,res)=>{
+    let success=false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ success,errors: errors.array() });
     }
     const {email, password}= req.body;
     try {
@@ -88,9 +90,9 @@ router.post("/login", [
             return res.status(400).json({error:"Invalid Credentials"})
         }
         //Checking the password
-        const passwordCompare=bcrypt.compare(password, agency.password)
+        const passwordCompare=await bcrypt.compare(password, agency.password)
         if(!passwordCompare){
-            return res.status(400).json({error:"Invalid Credentials"})
+            return res.status(400).json({success, error:"Invalid Credentials"})
         }
         const data={
             agency:{
@@ -98,19 +100,21 @@ router.post("/login", [
             }
         }
         const authToken = jwt.sign(data, JWT_SECRET);
-        
-        res.json({token: authToken})
+        success=true;
+        res.json({success, token: authToken})
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ error: "Some internal error occurred" })
+        res.status(500).json({success, error: "Some internal error occurred" })
     }
 })
 
 //Route-3
 router.post("/getagency" , fetchagency , async(req, res)=>{
+    
     try {
         let agencyId=req.agency.id;
         const agency=await Agency.findById(agencyId).select("-password");
+        
         res.send({agency: agency})
     } catch (error) {
         console.log(error);
