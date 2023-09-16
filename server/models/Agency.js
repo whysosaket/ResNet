@@ -9,6 +9,7 @@ const agencySchema = new mongoose.Schema({
     mobile: { type: Number, required: true },
     category: { type: String, required: true },
     date:{type:Date, default:Date.now},
+    distance:{type:mongoose.Decimal128, default:0}
     
 })
 
