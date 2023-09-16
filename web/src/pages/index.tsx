@@ -1,11 +1,11 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
+import { Drawer } from "vaul";
 
 import { api } from "@/utils/api";
+import { Emergency } from "@/components/emergency";
 
 export default function Home() {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -13,7 +13,7 @@ export default function Home() {
         <meta name="description" content="RescueNet" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="container mx-auto max-w-3xl">
+      <main className="mx-auto max-w-3xl">
         {/* <AuthShowcase /> */}
         <div className="space-y-6 bg-teal-300 px-3 pb-12 pt-5">
           <div className="flex items-center justify-between">
@@ -60,29 +60,14 @@ export default function Home() {
           </div>
         </div>
         <div className="-mt-5 flex flex-col items-center justify-center gap-6 rounded-t-xl bg-white p-5">
-          <div className="mt-8 max-w-xs text-center">
+          <div className="mt-8 text-center">
             <h1 className="text-3xl font-bold text-gray-900">
-              Emergency help needed?
+              Need urgent assistance?
             </h1>
-            <p className="text-lg text-gray-500">Just press the button</p>
           </div>
-          <button
-            type="button"
-            className="inline-flex items-center rounded-full bg-red-700 p-12 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-          >
-            <svg
-              className="w-h-16 h-16"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fill="currentColor"
-                d="M2.466 12.25a5.158 5.158 0 0 1 9.424-4.197l1.224 2.749l1.664 1.619a.75.75 0 0 1-.218 1.222l-9.727 4.331a.75.75 0 0 1-1.054-.656l-.09-2.32l-1.223-2.749Zm6.364 5.087a1.49 1.49 0 0 0 2.685-1.195L8.83 17.337Zm3.256-12.609a.5.5 0 0 1 .694-.134c1.607 1.085 2.715 2.638 2.888 4.424c.016.16.024.323.024.487a.5.5 0 1 1-1 0a4.04 4.04 0 0 0-.02-.39c-.136-1.418-1.024-2.728-2.452-3.693a.5.5 0 0 1-.134-.694Zm.49-2.485a.5.5 0 0 1 .688-.165c2.458 1.506 4.58 3.805 4.736 7.904a.5.5 0 0 1-1 .038c-.14-3.676-2-5.706-4.259-7.09a.5.5 0 0 1-.165-.687Z"
-              />
-            </svg>
-            <span className="sr-only">Icon description</span>
-          </button>
+          <Emergency />
+
+          <p className="text-lg text-gray-500">Just press the button</p>
         </div>
       </main>
     </>
