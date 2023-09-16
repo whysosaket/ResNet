@@ -1,17 +1,6 @@
-<style>
-.c1 {
-  background: rgb(12, 0, 36);
-  background: linear-gradient(
-    90deg,
-    rgba(12, 0, 36, 0.8492176386913229) 12%,
-    rgba(9, 38, 121, 0.6998577524893315) 57%,
-    rgba(0, 212, 255, 1) 74%
-  );
-}
-</style>
 
 <div align="center">
-  <iframe src="https://drive.google.com/file/d/1TR0QocmK52ZWgJm0_n7TL9fjkwNzKwS_/preview" width="640" height="480" allow="autoplay"></iframe>
+  ![Logo](logo.png)
 </div>
 
 <p align="center">
