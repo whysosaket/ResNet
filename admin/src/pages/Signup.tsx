@@ -24,6 +24,23 @@ const Signup = () => {
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="space-y-6">
+          <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 dark:text-white text-gray-900"
+              >
+                Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="name"
+                  name="name"
+                  type="email"
+                  autoComplete="name"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
             <div>
               <label
                 htmlFor="email"
@@ -56,6 +73,56 @@ const Signup = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 dark:text-white text-gray-900"
+              >
+                Category
+              </label>
+              <div className="mt-2">
+                <select className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  <option>Fire</option>
+                  <option>Police</option>
+                  <option>Medical</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 dark:text-white text-gray-900"
+              >
+                Mobile
+              </label>
+              <div className="mt-2">
+                <input
+                  id="mobile"
+                  name="mobile"
+                  type="mobile"
+                  autoComplete="mobile"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 dark:text-white text-gray-900"
+              >
+                Address
+              </label>
+              <div className="mt-2">
+                <input
+                  id="address"
+                  name="address"
+                  type="address"
+                  autoComplete="email"
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

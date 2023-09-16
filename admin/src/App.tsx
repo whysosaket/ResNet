@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -13,12 +13,23 @@ import Chats from "./pages/Chats";
 import Chat from "./pages/Chat";
 import Profile from "./pages/Profile";
 
+import GlobalState from "./context/Global/GlobalState";
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AuthState from "./context/Auth/AuthState";
+import Agencies from "./pages/Agencies";
+
 function App() {
   useEffect(() => {
     document.title = "RescueNet"
   }, []);
+
   return (
     <>
+    <GlobalState>
+      <AuthState>
+      <ToastContainer />
       <Router>
         <Navbar />
         <Routes>
@@ -31,10 +42,13 @@ function App() {
           <Route path="/chats" element={<Chats />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/agencies" element={<Agencies />} />
           <Route path="*" element={<_404 />} />
         </Routes>
         <Footer />
       </Router>
+      </AuthState>
+      </GlobalState>
     </>
   )
 }

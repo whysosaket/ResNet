@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "@/context/Auth/authContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
   const [logging, setLogging] = useState(false);
+  const {login} = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleClick = async ()=>{
     setLogging(!logging);
+    let loginInfo = await login(emailRef.current!.value, passwordRef.current!.value);
+    if(loginInfo.success){
+      setLogging(false);
+      localStorage.setItem("auth-token", loginInfo.token);
+      navigate("/");
+    }
+    else{
+      setLogging(false);
+    }
   }
 
   return (
@@ -37,6 +53,7 @@ const Login = () => {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  ref={emailRef}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -64,7 +81,8 @@ const Login = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  ref={passwordRef}
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>

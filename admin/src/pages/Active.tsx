@@ -1,8 +1,5 @@
 import ActiveCard from '@/components/Active/ActiveCard'
-import Realtimeupdates from '@/components/Active/Realtimeupdates'
 import {motion} from 'framer-motion'
-
-const buttonStyle = 'mx-2 text-white font-semibold py-2 px-3 rounded-md'
 
 const Active = () => {
   return (
