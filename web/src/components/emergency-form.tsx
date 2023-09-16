@@ -1,33 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
-import CameraCapture from "./camera-capture";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import CameraCapture from "./camera-capture";
 
+import { RadioGroup, RadioGroupItem } from "@/components//ui/radio-group";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components//ui/select";
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
 } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components//ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components//ui/radio-group";
-import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 // import { toast } from "@/components/ui/use-toast"
 
 const FormSchema = z.object({

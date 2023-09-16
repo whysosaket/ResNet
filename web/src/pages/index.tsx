@@ -1,6 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import { Drawer } from "vaul";
 
 import { api } from "@/utils/api";
 import { Emergency } from "@/components/emergency";

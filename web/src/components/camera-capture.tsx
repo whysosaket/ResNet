@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import type { ChangeEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
@@ -19,6 +18,8 @@ function CameraCapture() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const url = URL.createObjectURL(e.target.files[0]);
       const dimensions = new Image();
       dimensions.src = url;
@@ -112,8 +113,10 @@ function CameraCapture() {
 
   return (
     <>
-      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Image of the incident</label>
-      <div className="flex flex-col items-center gap-4 my-1">
+      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+        Image of the incident
+      </label>
+      <div className="my-1 flex flex-col items-center gap-4">
         {!clicked && cameraStream != null && (
           <video className="rounded-[10px]" ref={videoRef} autoPlay></video>
         )}
