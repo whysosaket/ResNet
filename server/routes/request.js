@@ -19,16 +19,20 @@ router.post(
   "/",
   [body("category", "category cannot be empty").isArray({ min: 1 })],
   async (req, res) => {
-    let success=false;
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({success, errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
     try {
       const categories = req.body.category;
       const location = req.body.location;
+      const victims = req.body.victims;
+      const severity = req.body.severity;
+      const details = req.body.details;
+      const image = req.body.image;
 
-      let agencies = await Agency.find({}, 'location category agencyID');
+      let agencies = await Agency.find({}, "location category agencyID");
       let finalAgencies = [];
 
       agencies.forEach((ag) => {
@@ -67,6 +71,10 @@ router.post(
         category: categories,
         agency: finalAgencies,
         requestID: requestID,
+        victims,
+        severity,
+        details,
+        image,
       });
       const data = {
         request: {
@@ -74,8 +82,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      success=true;
-      return res.json({ success,request });
+      success = true;
+      return res.json({ success, request });
     } catch (error) {
       console.log(error);
     }
@@ -83,23 +91,23 @@ router.post(
 );
 
 const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2 - lat1); // deg2rad below
-    var dLon = deg2rad(lon2 - lon1);
-    var a =
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(deg2rad(lat1)) *
-    Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) *
-    Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    // Distance in km
-    var d = R * c;
-    return d;
-    };
-    
-    const deg2rad = (deg) => {
-    return deg * (Math.PI / 180);
-    }
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  // Distance in km
+  var d = R * c;
+  return d;
+};
+
+const deg2rad = (deg) => {
+  return deg * (Math.PI / 180);
+};
 
 export default router;
