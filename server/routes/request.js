@@ -6,6 +6,7 @@ import User from "../models/User.js";
 import Request from "../models/Request.js";
 import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
+import fetchuser from "../middleware/fetchuser.js";
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -18,6 +19,7 @@ const generateRequestID = () => {
 router.post(
   "/",
   [body("category", "category cannot be empty").isArray({ min: 1 })],
+  fetchuser,
   async (req, res) => {
     let success = false;
     const errors = validationResult(req);
@@ -68,7 +70,7 @@ router.post(
       let request = await Request.create({
         user: req.body.user,
         location,
-        category: categories,
+        type: categories,
         agency: finalAgencies,
         requestID: requestID,
         victims,
@@ -89,6 +91,16 @@ router.post(
     }
   }
 );
+
+router.get('/ph', async(req,res)=>{
+    try {
+        const requests = await Request.findById("6506be11f40c2afd99d356d9")
+        return res.json({requests: requests})
+    } catch (error) {
+        console.log(error)
+    }
+    });
+
 
 const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
   var R = 6371; // Radius of the earth in km

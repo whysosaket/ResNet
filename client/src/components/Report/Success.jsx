@@ -1,10 +1,10 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import axios from "axios";
-import Link from "next/link";
-import React from "react";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-export default function Success() {
+
+const Success = () => {
   return (
+    <>
     <div className="grid h-screen place-items-center">
       <div className="p-6 md:mx-auto">
         <svg
@@ -27,27 +27,21 @@ export default function Success() {
           </p>
 
           <div className="space-x-3 py-10 text-center">
-            <Link href="/" className={buttonVariants({ variant: "outline" })}>
+            <Link href="/" className="">
               Go back
             </Link>
-            <Button
-              onClick={() => {
-                console.log("Calling....");
-                axios
-                  .post("http://localhost:5001/make_call")
-                  .then(() => {
-                    alert("Sent call request");
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
+            <Link
+              to="/chat"
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
             >
-              Make a call
-            </Button>
+              Chat
+            </Link>
           </div>
         </div>
       </div>
     </div>
-  );
+    </>
+  )
 }
+
+export default Success
