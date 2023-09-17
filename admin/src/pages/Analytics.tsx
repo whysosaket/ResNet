@@ -29,7 +29,7 @@ const Analytics = () => {
 
             setGenerating(true);
             axios
-              .post("http://localhost:5001/generate_report", {
+              .post("http://192.168.29.73:5002/generate_report", {
                 ...req,
               })
               .then((res) => {

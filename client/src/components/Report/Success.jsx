@@ -27,7 +27,7 @@ const Success = () => {
           </p>
 
           <div className="space-x-3 py-10 text-center">
-            <Link href="/" className="">
+            <Link to="/" className="">
               Go back
             </Link>
             <Link

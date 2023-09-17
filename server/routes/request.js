@@ -7,6 +7,7 @@ import Request from "../models/Request.js";
 import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import fetchuser from "../middleware/fetchuser.js";
+import fetchagency from "../middleware/fetchagency.js";
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -91,6 +92,78 @@ router.post(
     }
   }
 );
+
+router.get("/latest", fetchagency, async (req, res) => {
+    try {
+
+        let agency = await Agency.findById(req.agency.id);
+        if (!agency) {
+            return res.status(404).json({ success: false, error: "No such agency found" });
+        }
+
+        let requests = await Request.find({}).sort({ date: -1 });
+        requests = requests.filter((req) => req.status === "pending");
+        if(requests.length<=0) return res.json({success: false, requests: []})
+        requests = requests[0];
+
+        // calculating distance
+        let distance = getDistanceFromLatLonInKm(
+            requests.location[0],
+            requests.location[1],
+            agency.location[0],
+            agency.location[1]
+        );
+
+        // add distance to request
+        requests.distance = distance;
+        return res.json({ success: true, requests: requests, distance: distance.toFixed(2) });
+    }
+    catch (error) {
+        console.log(error)
+    }
+});
+
+router.post("/accept", fetchagency, async (req, res) => {
+    try {
+        const redid = req.body.requestID;
+        console.log(redid);
+        const request = await Request.findOne({ requestID: redid });
+        const agency = await Agency.findById(req.agency.id);
+        if (!request) {
+            return res.status(404).json({ success: false, error: "No such request found" });
+        }
+        if (!agency) {
+            return res.status(404).json({ success: false, error: "No such agency found" });
+        }
+        request.status = "accepted";
+        await request.save();
+        return res.json({ success: true, request: request });
+    }
+    catch (error) {
+        console.log(error)
+    }
+});
+
+router.post("/reject", fetchagency, async (req, res) => {
+    try {
+        const redid = req.body.requestID;
+        console.log(redid);
+        const request = await Request.findOne({ requestID: redid });
+        const agency = await Agency.findById(req.agency.id);
+        if (!request) {
+            return res.status(404).json({ success: false, error: "No such request found" });
+        }
+        if (!agency) {
+            return res.status(404).json({ success: false, error: "No such agency found" });
+        }
+        request.status = "reject";
+        await request.save();
+        return res.json({ success: true, request: request });
+    }
+    catch (error) {
+        console.log(error)
+    }
+});
 
 router.get('/ph', async(req,res)=>{
     try {
