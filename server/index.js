@@ -5,6 +5,8 @@ import authRouter from "./routes/auth.js";
 import agencyRouter from "./routes/agency.js";
 import agentRouter from "./routes/agent.js";
 import requestRouter from "./routes/request.js"
+import http from 'http';
+import { Server } from 'socket.io';
 
 // import router from './routes';
 
@@ -30,6 +32,37 @@ app.use("/api/request",requestRouter);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+});
+
+// Socket.io
+// create server
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("connected");
+  socket.on("disconnect", () => {
+    console.log("disconnected");
+  });
+
+  socket.on("message", (data) => {
+    socket.broadcast.emit("Remessage", data);
+  });
+
+    socket.on("getGraph", async () => {
+        // let graph = await sgetGraph();
+        socket.broadcast.emit("graph", graph);
+        }
+    );
+});
+
+io.listen(9001, () => {
+  console.log("Socket listening on port 9001");
 });
 
 export default app;
