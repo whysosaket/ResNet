@@ -1,6 +1,11 @@
-import React from 'react'
+import AuthContext from "@/context/Auth/authContext"
+import { useContext } from "react"
+
 
 const ProfileCard = () => {
+
+    const { agentInfo } = useContext(AuthContext);
+
   return (
     <div>
         <div className='bg-gray-950 rounded-lg p-4'>
@@ -9,29 +14,29 @@ const ProfileCard = () => {
                 <img src='https://picsum.photos/200' className='rounded-full md:w-24' />
             </div>
             <div className='w-3/4 ml-4 my-auto'>
-                <h1 className='text-xl font-semibold'>RQ1344</h1>
-                <p className='text-gray-400'>+91 9876543210</p>
+                <h1 className='text-xl font-semibold'>{agentInfo.agentID}</h1>
+                <p className='text-gray-400'>+91 {agentInfo.mobile}</p>
             </div>
             </div>
             <div className='flex justify-between mt-4'>
                 <div className='w-1/2'>
                     <h1 className='text-gray-400'>Name</h1>
-                    <p className='text-gray-400'>Saket Kumar</p>
+                    <p className='text-gray-400'>{agentInfo.name}</p>
                 </div>
                 <div className='w-1/2'>
-                <h1 className='text-gray-400'>Location</h1>
-                <p className='text-gray-400'>Delhi, India</p>
+                <h1 className='text-gray-400'>Agency</h1>
+                <p className='text-gray-400'>{agentInfo.agency.substring(5)}</p>
                 </div>
             </div>
             <div className='flex justify-between mt-4'>
                 <div className='w-1/2'>
-                <h1 className='text-gray-400'>Date of Birth</h1>
-                <p className='text-gray-400'>12/12/2002</p>
+                <h1 className='text-gray-400'>Date Added</h1>
+                <p className='text-gray-400'>{agentInfo.date.split("T")[0]}</p>
                 </div>
                 <div className='w-1/2'>
                 <h1 className='text-gray-400'>Email</h1>
                 <p className='text-gray-400'>
-                <a href="mailto:saket2002@gmail.com"> email.example.com</a>
+                <a href="mailto:saket2002@gmail.com"> {agentInfo.email}</a>
                 </p>
                 </div>
             </div>

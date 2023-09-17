@@ -19,6 +19,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthState from "./context/Auth/AuthState";
 import Agencies from "./pages/Agencies";
+import AddMembers from "./pages/AddMembers";
 
 function App() {
   useEffect(() => {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/agencies" element={<Agencies />} />
+          <Route path="/addmembers" element={<AddMembers />} />
           <Route path="*" element={<_404 />} />
         </Routes>
         <Footer />

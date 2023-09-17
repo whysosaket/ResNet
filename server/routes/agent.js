@@ -25,15 +25,27 @@ const generateAgentID = () => {
 };
 
 //Route-1 Fetching all agents
-router.get("/fetchagent", fetchagency, async (req, res) => {
+router.get("/fetchagents", fetchagency, async (req, res) => {
     let success=false
   try {
-    const agent = await Agent.find({ agency: req.agency.id });
+    const agent = await Agent.find({ agency: req.agency.id }, "name agentID");
     success=true;
-    res.json(agent);
+    return res.json({success: true, agents: agent});
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success, error: "Some internal error occurred" });
+    return res.status(500).json({ success, error: "Some internal error occurred" });
+  }
+});
+
+router.post("/fetchagent", fetchagency, async (req, res) => {
+    let success=false
+  try {
+    const agent = await Agent.findOne({ agentID: req.body.agentID });
+    success=true;
+    return res.json({success: true, agent: agent});
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success, error: "Some internal error occurred" });
   }
 });
 
@@ -105,7 +117,7 @@ router
         };
         const authToken = jwt.sign(data, JWT_SECRET);
         success=true;
-            res.json({success, agent: agent});
+        return res.json({success, agent: agent});
       } catch (error) {
         console.log(error);
         res.json({ success, error: "Something Went Wrong!" });
