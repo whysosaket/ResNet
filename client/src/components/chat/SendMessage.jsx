@@ -5,7 +5,7 @@ import GlobalContext from '../../context/globalContext'
 
 const SendMessage = () => {
 
-    const {sendMessage} = React.useContext(GlobalContext);
+    const {sendRTMessage} = React.useContext(GlobalContext);
 
     const [text, setText] = React.useState('');
 
@@ -15,7 +15,7 @@ const SendMessage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        sendMessage('DISASTER', text);
+        sendRTMessage(text);
         setText('');
     }
 
