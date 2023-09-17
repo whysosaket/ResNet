@@ -128,7 +128,7 @@ router.post("/getuser", fetchuser, async (req, res) => {
   }
 });
 //route-4
-router.get("/fetchallagency", fetchuser, async(req,res)=>{
+router.post("/fetchallagency", fetchuser, async(req,res)=>{
   let success=false;
   try {
       const location=req.body.location;

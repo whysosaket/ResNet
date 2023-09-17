@@ -1,4 +1,4 @@
-import ChatWindow from '../components/chat/ChatWindow'
+import ChatWindow from '../components/chatBot/ChatWindow'
 import {motion} from 'framer-motion'
 
 const Chat = () => {

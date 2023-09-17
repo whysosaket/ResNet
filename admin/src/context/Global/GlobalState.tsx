@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 
+// suppress warning
+//@ts-ignore
 const socket = io.connect("http://192.168.29.73:9001");
 
 const GlobalState = (props:any) => {

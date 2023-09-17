@@ -1,0 +1,12 @@
+import ChatWindow from '../components/chat/ChatWindow'
+import {motion} from 'framer-motion'
+
+const ChatBot = () => {
+  return (
+    <motion.div initial={{y: 30}} animate={{y: 0}} transition={{duration: 0.4}}>
+        <ChatWindow />
+    </motion.div>
+  )
+}
+
+export default ChatBot
