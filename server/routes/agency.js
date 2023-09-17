@@ -64,7 +64,7 @@ router.post("/register", [
         }
         const authToken = jwt.sign(data, JWT_SECRET);
         success=true;
-        res.json({sucess,agency: agency})
+        res.json({success,agency: agency})
     } catch (error) {
         console.error(error.message);
         res.status(500).json({success, error: "Some internal error occurred" })
@@ -87,7 +87,7 @@ router.post("/login", [
         //Finding the Agency with the provided email
         let agency= await Agency.findOne({email: email})
         if(!agency){
-            return res.status(400).json({error:"Invalid Credentials"})
+            return res.status(400).json({success,error:"Invalid Credentials"})
         }
         //Checking the password
         const passwordCompare=await bcrypt.compare(password, agency.password)
@@ -121,5 +121,50 @@ router.post("/getagency" , fetchagency , async(req, res)=>{
         res.status(500).send("Internal Server Error")
     }
 })
+//Route-4
+router.get("/fetchallagency", fetchagency, async(req,res)=>{
+    let success=false;
+    try {
+        
+        let agencies =await Agency.find({});
+        
+        const agency= await Agency.findById(req.agency.id)
+        const location=agency.location
+        agencies.forEach((ag) => {
+            const distance = getDistanceFromLatLonInKm(
+              location[0],
+              location[1],
+              ag.location[0],
+              ag.location[1]
+            );
+            ag.distance = distance;
+          });
+          agencies.sort((a, b) => a.distance - b.distance);
+          
+          success=true;
+          return res.json({success, agencies: agencies})
+    } catch (error) {
+        console.error(error)
+    }
+})
+const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+    Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    // Distance in km
+    var d = R * c;
+    return d;
+    };
+    
+    const deg2rad = (deg) => {
+    return deg * (Math.PI / 180);
+    }
 
 export default router;

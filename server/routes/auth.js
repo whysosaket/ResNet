@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Agency from "../models/Agency.js"
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 import fetchuser from "../middleware/fetchuser.js";
@@ -126,5 +127,47 @@ router.post("/getuser", fetchuser, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+//route-4
+router.get("/fetchallagency", fetchuser, async(req,res)=>{
+  let success=false;
+  try {
+      const location=req.body.location;
+      let agencies =await Agency.find({});
+      
+      agencies.forEach((ag) => {
+          const distance = getDistanceFromLatLonInKm(
+            location[0],
+            location[1],
+            ag.location[0],
+            ag.location[1]
+          );
+          ag.distance = distance;
+        });
+        agencies.sort((a, b) => a.distance - b.distance);
+        success=true;
+        return res.json({success, agencies: agencies})
+  } catch (error) {
+      console.error(error)
+  }
+})
+const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a =
+  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  Math.cos(deg2rad(lat1)) *
+  Math.cos(deg2rad(lat2)) *
+  Math.sin(dLon / 2) *
+  Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  // Distance in km
+  var d = R * c;
+  return d;
+  };
+  
+  const deg2rad = (deg) => {
+  return deg * (Math.PI / 180);
+  }
 
 export default router;
