@@ -1,4 +1,5 @@
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import axios from "axios";
 import Link from "next/link";
 import React from "react";
 
@@ -24,11 +25,26 @@ export default function Success() {
             We have informed the required agency, they will be reaching anytime
             soon.
           </p>
-          <p className=" font-medium"> Have a great day! </p>
-          <div className="py-10 text-center">
-            <Link href="/" className={buttonVariants({ variant: "default" })}>
+
+          <div className="space-x-3 py-10 text-center">
+            <Link href="/" className={buttonVariants({ variant: "outline" })}>
               Go back
             </Link>
+            <Button
+              onClick={() => {
+                console.log("Calling....");
+                axios
+                  .post("http://localhost:5000/make_call")
+                  .then(() => {
+                    alert("Sent call request");
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              Make a call
+            </Button>
           </div>
         </div>
       </div>
