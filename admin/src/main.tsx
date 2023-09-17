@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
-import Loading from './components/Loading';
+import React, { useState, useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import Loading from "./components/Loading";
 
 function Root() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,10 +14,8 @@ function Root() {
   }, []);
 
   return (
-    <React.StrictMode>
-      {isLoading ? <Loading /> : <App />}
-    </React.StrictMode>
+    <React.StrictMode>{isLoading ? <Loading /> : <App />}</React.StrictMode>
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<Root />);
+createRoot(document.getElementById("root")!).render(<Root />);
