@@ -1,11 +1,25 @@
-import { useState } from "react";
-import {motion} from 'framer-motion'
+import { useState, useRef, useContext } from "react";
+import {motion} from 'framer-motion';
+import AuthContext from "@/context/Auth/authContext";
 
 const AddMembers = () => {
 
   const [logging, setLogging] = useState(false);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const mobileRef = useRef<HTMLInputElement>(null);
+
+  const {addAgent} = useContext(AuthContext);
 
   const handleClick = async ()=>{
+    let ans = await addAgent(nameRef.current!.value, emailRef.current!.value, mobileRef.current!.value, passwordRef.current!.value);
+    if(ans===true) {
+      nameRef.current!.value = "";
+      emailRef.current!.value = "";
+      passwordRef.current!.value = "";
+      mobileRef.current!.value = "";
+    }
     setLogging(!logging);
   }
 
@@ -37,6 +51,7 @@ const AddMembers = () => {
                   name="name"
                   type="email"
                   autoComplete="name"
+                  ref={nameRef}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -54,6 +69,7 @@ const AddMembers = () => {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  ref={emailRef}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -73,6 +89,7 @@ const AddMembers = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
+                  ref={passwordRef}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -90,6 +107,7 @@ const AddMembers = () => {
                   name="mobile"
                   type="mobile"
                   autoComplete="mobile"
+                  ref={mobileRef}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

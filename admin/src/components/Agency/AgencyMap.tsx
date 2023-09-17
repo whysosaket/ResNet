@@ -5,7 +5,9 @@ import L from "leaflet";
 import {motion} from 'framer-motion'
 
 import icon from "./constants";
-const AgencyMap = () => {
+import { hospitalIcon, fireIcon, policeIcon } from "./constants";
+
+const AgencyMap = (props: {agencies: any}) => {
   function LocationMarker() {
     const [position, setPosition] = useState({lat: 20.2478872, lng: 85.8010479});
     const [bbox, setBbox] = useState<any>([]);
@@ -85,6 +87,22 @@ const AgencyMap = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LocationMarker />
+        {props.agencies.map((agency: any, index: number) => {
+          return (
+            <Marker
+              key={index}
+              position={[agency.location[0], agency.location[1]]}
+              icon={agency.category === "Medical" ? hospitalIcon : agency.category === "Fire" ? fireIcon : policeIcon}
+            >
+              <Popup>
+                <b>{agency.name}</b> <br />
+                <b>Category</b>: {agency.category} <br />
+                <b>Contact</b>: {agency.mobile} <br />
+                <b>Location</b>: {agency.location[1]}, {agency.location[0]}
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
     </motion.div>
   );

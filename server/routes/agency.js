@@ -126,10 +126,10 @@ router.get("/fetchallagency", fetchagency, async(req,res)=>{
     let success=false;
     try {
         
-        let agencies =await Agency.find({});
+        let agencies =await Agency.find({}, "-password");
         
-        const agency= await Agency.findById(req.agency.id)
-        const location=agency.location
+        const agency = await Agency.findById(req.agency.id)
+        const location = agency.location
         agencies.forEach((ag) => {
             const distance = getDistanceFromLatLonInKm(
               location[0],

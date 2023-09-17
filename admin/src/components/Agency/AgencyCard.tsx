@@ -3,7 +3,7 @@ import {BsFillChatFill} from 'react-icons/bs'
 import {motion} from 'framer-motion'
 import {Link} from 'react-router-dom'
 
-const AgencyCard = (props:{delay: number, name: string, userid: string}) => {
+const AgencyCard = (props:{delay: number, name: string, userid: string, contact: string, category: string, location: []}) => {
   return (
     <>
 
@@ -22,6 +22,12 @@ const AgencyCard = (props:{delay: number, name: string, userid: string}) => {
                 </h5>
                 <p className="font-normal text-xs text-gray-700 dark:text-gray-400">
                 {props.userid}
+                </p>
+                <p className="font-normal text-xs text-gray-700 dark:text-gray-400">
+                {props.contact}
+                </p>
+                <p className="font-semibold text-xs text-gray-700 dark:text-gray-100">
+                {props.category}
                 </p>
             </div>
             <div className='w-1/4 flex justify-end'>

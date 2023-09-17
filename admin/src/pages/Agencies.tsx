@@ -1,7 +1,8 @@
 import AgenciesCard from "@/components/Agency/AgencyCard";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import AgencyMap from "@/components/Agency/AgencyMap";
+import AuthContext from "@/context/Auth/authContext";
 
 const membersSample = [
   { name: "Shiv", userid: "FF0881" },
@@ -12,8 +13,15 @@ const membersSample = [
 ];
 
 const Agencies = () => {
+
+  const {fetchAgencies, allAgencies} = useContext(AuthContext);
+
   const [members, setMembers] = useState<any[]>(membersSample);
   const [showMap, setShowMap] = useState<boolean>(false);
+
+  useEffect(()=>{
+    fetchAgencies();
+  },[]);
 
   return (
     <div className="w-full md:px-6">
@@ -27,14 +35,18 @@ const Agencies = () => {
           {showMap ? "Hide Map" : "Show Map"}
         </button>
       </div>
-      {showMap && <AgencyMap />}
-      {members.map((member, index) => {
+      {allAgencies.length<=0&&<h1 className="font-semibold text-center my-6">No Agenices to Show!</h1>}
+      {showMap && <AgencyMap agencies={allAgencies} />}
+      {allAgencies.map((member:any, index:number) => {
         return (
           <AgenciesCard
             key={index}
             delay={index}
             name={member.name}
-            userid={member.userid}
+            userid={member.agencyID}
+            location={member.location}
+            contact={member.mobile}
+            category={member.category}
           />
         );
       })}
