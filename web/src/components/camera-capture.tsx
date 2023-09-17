@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 import type { ChangeEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
+import { v4 as uuidv4 } from "uuid";
+// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+// import { env } from "@/env.mjs";
+// import { UploadButton } from "@/utils/uploadthing";
 
 interface ImageData {
   src: string;
@@ -9,7 +14,12 @@ interface ImageData {
   width: number;
 }
 
-function CameraCapture() {
+function CameraCapture({ onUploadImage }: any) {
+  // const supabase = createClientComponentClient({
+  //   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
+  //   supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ANON_KEY,
+  // });
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [imageData, setImageData] = useState<ImageData | null>(null);
@@ -18,6 +28,11 @@ function CameraCapture() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      // if (file) {
+      //   void uploadImage(file);
+      // }
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const url = URL.createObjectURL(e.target.files[0]);
@@ -29,11 +44,37 @@ function CameraCapture() {
           height: dimensions.height,
           width: dimensions.width,
         });
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        onUploadImage(url);
       };
 
       setClicked(true);
     }
   };
+
+  // const uploadImage = async (file: File) => {
+  //   const filename = `${uuidv4()}-${file.name}`;
+
+  //   const bucket = "incidents";
+
+  //   // Call Storage API to upload file
+  //   const { data, error } = await supabase.storage
+  //     .from(bucket)
+  //     .upload(filename, file);
+
+  //   // Handle error if upload failed
+  //   if (error) {
+  //     alert("Error uploading file.");
+  //     return;
+  //   }
+
+  //   alert("File uploaded successfully!");
+
+  //   console.log(filename);
+  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  //   onUploadImage(data.path);
+  // };
 
   const stopCamera = () => {
     if (cameraStream) {
@@ -99,6 +140,8 @@ function CameraCapture() {
         });
         setClicked(true);
         stopCamera();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        void onUploadImage(dataUrl);
       }
     }
   };
@@ -146,6 +189,20 @@ function CameraCapture() {
               />
             </label>
           )}
+          {/* {cameraStream != null && !clicked && (
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                // Do something with the response
+                console.log("Files: ", res);
+                alert("Upload Completed");
+              }}
+              onUploadError={(error: Error) => {
+                // Do something with the error.
+                alert(`ERROR! ${error.message}`);
+              }}
+            />
+          )} */}
           {cameraStream != null && !clicked && (
             <Button variant="outline" onClick={captureImage}>
               Take picture
