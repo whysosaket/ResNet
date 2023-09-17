@@ -34,9 +34,8 @@ const GlobalState = (props:any) => {
       text: message,
       by: "Me",
     };
-
+    setMessages((prevMessages: any) => [...prevMessages, myMessage]);
     socket.emit("message", message, () => {
-      setMessages((prevMessages: any) => [...prevMessages, myMessage]);
       console.log("Message Delivered");
     });
   }
