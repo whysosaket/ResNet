@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react"
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import _404 from "./pages/_404";
@@ -15,44 +15,46 @@ import Profile from "./pages/Profile";
 
 import GlobalState from "./context/Global/GlobalState";
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AuthState from "./context/Auth/AuthState";
 import Agencies from "./pages/Agencies";
 import AddMembers from "./pages/AddMembers";
+import Analytics from "./pages/Analytics";
 
 function App() {
   useEffect(() => {
-    document.title = "RescueNet"
+    document.title = "RescueNet";
   }, []);
 
   return (
     <>
-    <GlobalState>
-      <AuthState>
-      <ToastContainer />
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/active" element={<Active />} />
-          <Route path="/track" element={<Track />} />
-          <Route path="/members" element={<Members />} />
-          <Route path="/chats" element={<Chats />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/agencies" element={<Agencies />} />
-          <Route path="/addmembers" element={<AddMembers />} />
-          <Route path="*" element={<_404 />} />
-        </Routes>
-        <Footer />
-      </Router>
-      </AuthState>
+      <GlobalState>
+        <AuthState>
+          <ToastContainer />
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/active" element={<Active />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/track" element={<Track />} />
+              <Route path="/members" element={<Members />} />
+              <Route path="/chats" element={<Chats />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/agencies" element={<Agencies />} />
+              <Route path="/addmembers" element={<AddMembers />} />
+              <Route path="*" element={<_404 />} />
+            </Routes>
+            <Footer />
+          </Router>
+        </AuthState>
       </GlobalState>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
